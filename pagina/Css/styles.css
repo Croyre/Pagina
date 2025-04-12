@@ -1,0 +1,304 @@
+/* Agrega margen para separar el contenido principal del menú */
+main {
+    margin-top: 20px; /* O el valor que consideres adecuado */
+}
+/* Estilos para el menú horizontal */
+.menu-nav {
+    background-color: #bd793c; /* Color de fondo (puedes ajustarlo si lo prefieres) */
+    padding: 10px 0;
+}
+
+/* Menú horizontal */
+.menu-nav {
+    background-color: #bd793c; /* Color de fondo */
+    padding: 10px 0;
+    margin-top: 80px; /* Espacio para que no quede tapado por el header */
+}
+
+.menu-nav .menu {
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly; /* Distribuye los items equitativamente */
+    margin: 0;
+    padding: 0;
+}
+
+.menu-nav .menu li {
+    flex: 1;           /* Cada item ocupa el mismo ancho */
+    text-align: center;
+}
+
+.menu-nav .menu li a {
+    display: block;    /* Hace que todo el área del li sea clicable */
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.menu-nav .menu li a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Efecto hover para identificar el botón */
+}
+
+
+/* El resto de tus estilos ya existentes */
+/* HEADER - COLOR COBRE */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #bd793c; /* COBRE */
+    color: white; /* Texto e íconos en blanco */
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+}
+
+/* Color de fondo del body en blanco */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: white; /* FONDO BLANCO */
+}
+
+/* Logo */
+.logo img {
+    height: 50px;
+}
+
+/* Barra de búsqueda */
+.search-bar {
+    flex-grow: 1;
+    margin: 0 20px;
+    padding: 5px;
+    border: 1px solid white; /* Borde blanco */
+    border-radius: 5px;
+    max-width: 400px;
+    width: 100%;
+    background-color: white; /* Fondo blanco */
+    color: black; /* Texto negro */
+}
+
+/* Íconos del carrito y favoritos */
+.icons a {
+    text-decoration: none;
+    font-size: 24px;
+    padding: 45px;
+    color: white; /* Íconos blancos */
+}
+
+/* Íconos cambian de color al pasar el mouse */
+.icons a:hover {
+    color: black; /* Cambio a negro */
+}
+
+/* PRODUCTOS - GRID */
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas fijas */
+    gap: 20px;
+}
+
+.product {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    background: #fff;
+    border-radius: 5px;
+}
+
+.product img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .search-bar {
+        margin: 10px 0;
+        width: 90%;
+    }
+
+    .icons {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .menu-nav .menu {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-nav .menu li a {
+        font-size: 14px;  /* Reduce el tamaño del texto para pantallas pequeñas */
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .icons a {
+        font-size: 20px;
+        padding: 5px;
+    }
+    
+    .product-list {
+        grid-template-columns: repeat(2, 1fr); /* Para móviles muy pequeños, 2 columnas */
+    }
+}
+
+
+/* ============================
+   Estilos para la página de ingreso
+   ============================ */
+   .login-container {
+    max-width: 400px;
+    margin: 150px auto 20px; /* Margen superior para que no quede tapado por el header y menú */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  
+  .login-container h1 {
+    margin-bottom: 20px;
+  }
+  
+  .login-form input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px auto;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .login-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+  }
+  
+  .login-buttons button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #bd793c;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .login-buttons button:hover {
+    background-color: #a96030;
+  }
+  
+  .forgot-password a {
+    text-decoration: none;
+    color: #bd793c;
+  }
+  
+
+  /* ========================
+  Estilos pagina producto
+  =======================*/
+
+  /* Estilos para la página de detalles del producto */
+.product-detail {
+    margin: 120px 20px 20px; /* Ajuste de margen para evitar el header y menú */
+  }
+  
+  .product-container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  
+  /* Imagen a la izquierda */
+  .product-image {
+    flex: 1 1 40%;
+  }
+  
+  .product-image img {
+    max-width: 100%;
+    border-radius: 5px;
+  }
+  
+  /* Información del producto a la derecha */
+  .product-info {
+    flex: 1 1 55%;
+  }
+  
+  .product-info h1 {
+    margin-top: 0;
+    font-size: 2em;
+  }
+  
+  .product-info p {
+    line-height: 1.6;
+  }
+  
+  .product-info .price {
+    font-weight: bold;
+    font-size: 1.5em;
+    margin: 20px 0;
+  }
+  
+  /* Botones de acción */
+  .buttons {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .btn-favorite,
+  .btn-buy {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-favorite {
+    background-color: #f0ad4e;
+    color: white;
+  }
+  
+  .btn-favorite:hover {
+    background-color: #ec971f;
+  }
+  
+  .btn-buy {
+    background-color: #5cb85c;
+    color: white;
+  }
+  
+  .btn-buy:hover {
+    background-color: #4cae4c;
+  }
+  
+  /* Responsive para detalles del producto */
+  @media (max-width: 768px) {
+    .product-container {
+      flex-direction: column;
+    }
+  }
+  
+  /* Estilos para la página de checkout*/
+
+  /* Estilos para el checkout */
+  

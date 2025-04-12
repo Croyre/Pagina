@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Resumen y Pago</title>
+  <link rel="stylesheet" href="Css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* Estilos específicos para la página de checkout */
+    .checkout-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 120px 20px;
+    }
+    .summary {
+      flex: 1 1 45%;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .payment {
+      flex: 1 1 45%;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .summary h2, .payment h2 {
+      margin-top: 0;
+    }
+    .product {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    .product img {
+      width: 80px;
+      height: auto;
+      border-radius: 5px;
+    }
+    .product-details {
+      flex: 1;
+    }
+    .product-details p {
+      margin: 5px 0;
+    }
+    .total {
+      font-weight: bold;
+      font-size: 1.2em;
+      text-align: right;
+      margin-top: 15px;
+    }
+    /* Estilos para el formulario de pago */
+    .payment-form .form-group {
+      margin-bottom: 15px;
+    }
+    .payment-form label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .payment-form input[type="text"],
+    .payment-form input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .payment-form input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    .btn-purchase {
+      padding: 10px 20px;
+      background-color: #5cb85c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+      margin-top: 10px;
+    }
+    .btn-purchase:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .terms-link {
+      color: #007BFF;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="/img/logo.jpg" alt="Logo">
+    </div>
+    <input type="search" name="search" class="search-field" placeholder="Enter your product name...">
+    <button class="search-btn">
+      <ion-icon name="search-outline"></ion-icon>
+    </button>
+    <div class="icons">
+      <a href="favorites.html" class="favorites">❤️</a>
+      <a href="cart.html" class="cart">🛒</a>
+    </div>
+  </header>
+
+  <!-- Menú horizontal -->
+  <nav class="menu-nav">
+    <ul class="menu">
+      <li><a href="index.html">INICIO</a></li>
+      <li><a href="ingreso.html">INGRESO</a></li>
+      <li><a href="registro.html">REGISTRO</a></li>
+      <li><a href="contactenos.html">CONTACTENOS</a></li>
+    </ul>
+  </nav>
+
+  <!-- Contenido principal del checkout -->
+  <main class="checkout-container">
+    <!-- Columna izquierda: Resumen de la compra -->
+    <section class="summary">
+      <h2>Resumen de la Compra</h2>
+      <div id="summary-container">
+        <!-- Se cargarán los productos del carrito -->
+      </div>
+      <p class="total">Total: $<span id="summary-total">0.00</span></p>
+    </section>
+
+    <!-- Columna derecha: Formulario de pago -->
+    <section class="payment">
+      <h2>Datos de Pago</h2>
+      <form id="payment-form" class="payment-form">
+        <div class="form-group">
+          <label for="card-number">Número de Tarjeta:</label>
+          <input type="text" id="card-number" name="card-number" placeholder="XXXX-XXXX-XXXX-XXXX" required>
+        </div>
+        <div class="form-group">
+          <label for="card-name">Nombre del Titular:</label>
+          <input type="text" id="card-name" name="card-name" placeholder="Nombre completo" required>
+        </div>
+        <div class="form-group">
+          <label for="expiry-date">Fecha de Expiración:</label>
+          <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/AA" required>
+        </div>
+        <div class="form-group">
+          <label for="cvv">CVV:</label>
+          <input type="text" id="cvv" name="cvv" placeholder="123" required>
+        </div>
+        <div class="form-group">
+          <input type="checkbox" id="terms" name="terms">
+          <label for="terms">
+            Acepto los 
+            <a href="T&C T&S.html" class="terms-link" target="_blank">Términos y Condiciones</a>
+          </label>
+        </div>
+        <button type="submit" id="purchase-btn" class="btn-purchase" disabled>Comprar</button>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // Cargar el resumen del carrito desde localStorage
+    function loadSummary() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const summaryContainer = document.getElementById('summary-container');
+      summaryContainer.innerHTML = '';
+      let total = 0;
+      
+      if(cart.length === 0) {
+        summaryContainer.innerHTML = '<p>No hay productos en el carrito.</p>';
+      } else {
+        cart.forEach(function(product) {
+          // Convertir el precio a número si se guardó limpio
+          const productPrice = parseFloat(product.price.replace('Precio: $', '')) || parseFloat(product.price);
+          total += productPrice * product.quantity;
+          
+          const itemDiv = document.createElement('div');
+          itemDiv.classList.add('product');
+          itemDiv.innerHTML = `
+            <img src="${product.image}" alt="${product.title}">
+            <div class="product-details">
+              <h3>${product.title}</h3>
+              <p>Cantidad: ${product.quantity}</p>
+              <p>Precio: $${product.price}</p>
+            </div>
+          `;
+          summaryContainer.appendChild(itemDiv);
+        });
+      }
+      document.getElementById('summary-total').innerText = total.toFixed(2);
+    }
+
+    // Validación del formulario de pago
+    const paymentForm = document.getElementById('payment-form');
+    const purchaseBtn = document.getElementById('purchase-btn');
+
+    function checkPaymentForm() {
+      const cardNumber = document.getElementById('card-number').value.trim();
+      const cardName = document.getElementById('card-name').value.trim();
+      const expiryDate = document.getElementById('expiry-date').value.trim();
+      const cvv = document.getElementById('cvv').value.trim();
+      const termsAccepted = document.getElementById('terms').checked;
+      
+      if(cardNumber && cardName && expiryDate && cvv && termsAccepted) {
+        purchaseBtn.disabled = false;
+      } else {
+        purchaseBtn.disabled = true;
+      }
+    }
+
+    paymentForm.addEventListener('input', checkPaymentForm);
+    paymentForm.addEventListener('change', checkPaymentForm);
+
+    paymentForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Compra realizada con éxito');
+      // Opcional: limpiar el carrito y/o redirigir a otra página
+    });
+
+    // Cargar el resumen cuando la página esté lista
+    document.addEventListener('DOMContentLoaded', loadSummary);
+  </script>
+</body>
+</html>

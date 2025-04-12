@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalles del Producto - Contenedor Pet 2GO</title>
+  <link rel="stylesheet" href="Css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header igual que en el home -->
+  <header>
+    <div class="logo">
+      <img src="/img/logo.jpg" alt="Logo">
+    </div>
+    <input type="search" name="search" class="search-field" placeholder="Enter your product name...">
+    <button class="search-btn">
+      <ion-icon name="search-outline"></ion-icon>
+    </button>
+    <div class="icons">
+      <a href="favorites.html" class="favorites">❤️</a>
+      <a href="cart.html" class="cart">🛒</a>
+    </div>
+  </header>
+
+  <!-- Menú horizontal -->
+  <nav class="menu-nav">
+    <ul class="menu">
+      <li><a href="index.html">INICIO</a></li>
+      <li><a href="ingreso.html">INGRESO</a></li>
+      <li><a href="registro.html">REGISTRO</a></li>
+      <li><a href="contactenos.html">CONTACTENOS</a></li>
+    </ul>
+  </nav>
+
+  <!-- Contenido principal de la página de detalles -->
+  <main class="product-detail">
+    <div class="product-container">
+      <!-- Imagen del producto a la izquierda -->
+      <div class="product-image">
+        <img src="/img/PaqueteCaramelos.webp" alt="Paquete Caralemos">
+      </div>
+      <!-- Información del producto a la derecha -->
+      <div class="product-info">
+        <h1>Paquete 100 caramelos pequeños</h1>
+        <p>>Paquete de 100 caramelos pequeños cuadrados, 175 ml</p>
+        <p class="price">Precio: $25.00</p>
+        <div class="buttons">
+          <a href="favorites.html" class="btn-favorite">Guardar en Favoritos</a>
+          <a href="checkout.html" class="btn-buy">Comprar</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
+
+<script>
+    // Seleccionamos el botón de favoritos
+    const favoriteBtn = document.querySelector('.btn-favorite');
+  
+    favoriteBtn.addEventListener('click', function(event) {
+      event.preventDefault(); // Evita la acción por defecto del enlace
+  
+      // Obtenemos la información del producto desde el DOM
+      const product = {
+        id: "paquete-caramelos", // Asigna un ID único (puede ser dinámico)
+        title: document.querySelector('.product-info h1').innerText,
+        description: document.querySelector('.product-info p').innerText,
+        image: document.querySelector('.product-image img').src,
+        price: document.querySelector('.price').innerText
+      };
+  
+      // Obtenemos la lista actual de favoritos del localStorage
+      let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  
+      // Verificamos si el producto ya existe en favoritos usando el ID
+      if (!favorites.some(item => item.id === product.id)) {
+        favorites.push(product);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        alert('Producto agregado a favoritos');
+      } else {
+        alert('El producto ya está en favoritos');
+      }
+    });
+  </script>
+
+<script>
+    // Botón para ir al carrito de compras
+    const buyBtn = document.querySelector('.btn-buy');
+  
+    buyBtn.addEventListener('click', function(event) {
+      event.preventDefault(); // Evita que se siga el enlace
+  
+      // Obtenemos la información del producto desde el DOM
+      const product = {
+        id: "paquete-caramelos", // ID único para el producto
+        title: document.querySelector('.product-info h1').innerText,
+        description: document.querySelector('.product-info p').innerText,
+        image: document.querySelector('.product-image img').src,
+        price: "25.00", // Precio en formato string o numérico
+        quantity: 1  // Inicialmente se agrega 1 unidad
+      };
+  
+      // Obtenemos la lista actual del carrito o iniciamos un arreglo vacío
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  
+      // Buscamos si el producto ya existe en el carrito (por ID)
+      const existingProductIndex = cart.findIndex(item => item.id === product.id);
+  
+      if (existingProductIndex > -1) {
+        // Si ya existe, incrementamos la cantidad
+        cart[existingProductIndex].quantity += 1;
+      } else {
+        // Si no existe, lo agregamos
+        cart.push(product);
+      }
+  
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert('Producto guardado en el carrito de compras');
+    });
+  </script>
+  

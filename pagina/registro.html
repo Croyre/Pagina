@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="Css/styles.css"> <!-- Se usa el mismo CSS -->
+    <style>
+        /* Estilos adicionales para la página de registro */
+        .register-container {
+            max-width: 400px;
+            margin: 150px auto 20px;
+            /* Espacio superior para dejar lugar al header y menú */
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .register-container input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px auto;
+            display: block;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .register-container button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #bd793c;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .register-container button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="/img/logo.jpg" alt="Logo">
+        </div>
+        <input type="text" placeholder="Buscar productos..." class="search-bar">
+        <div class="icons">
+            <a href="favorites.html" class="favorites">❤️</a>
+            <a href="cart.html" class="cart">🛒</a>
+        </div>
+    </header>
+
+    <!-- Menú horizontal -->
+    <nav class="menu-nav">
+        <ul class="menu">
+            <li><a href="index.html">INICIO</a></li>
+            <li><a href="ingreso.html">INGRESO</a></li>
+            <li><a href="registro.html">REGISTRO</a></li>
+            <li><a href="contactenos.html">CONTACTENOS</a></li>
+        </ul>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main>
+        <div class="register-container">
+            <h1>REGISTRO</h1>
+
+            <!-- Paso 1: Ingreso del email -->
+            <div id="step1">
+                <input type="email" id="email" placeholder="Ingrese su correo electronico" required>
+                <button id="btnStep1" disabled>Siguiente</button>
+            </div>
+
+            <!-- Paso 2: Ingreso de contraseña -->
+            <div id="step2" style="display:none;">
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <input type="password" id="confirmPassword" placeholder="Confirmar contraseña" required>
+                <!-- Mensaje de error, oculto por defecto -->
+                <p id="errorMessage" style="color: red; display: none; margin: 5px 0;">Las contraseñas no coinciden</p>
+                <button id="btnStep2" disabled>Siguiente</button>
+            </div>
+
+
+            <!-- Mensaje final -->
+            <div id="finalMessage" style="display:none;">
+                <p>Usuario creado exitosamente.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript para gestionar la secuencia de registro -->
+    <script>
+        // Paso 1: Validación del correo
+        const emailInput = document.getElementById('email');
+        const btnStep1 = document.getElementById('btnStep1');
+        emailInput.addEventListener('input', () => {
+            // Habilita el botón si se ingresa algún texto
+            btnStep1.disabled = emailInput.value.trim() === '';
+        });
+        btnStep1.addEventListener('click', () => {
+            // Oculta el paso 1 y muestra el paso 2
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+        });
+    
+        // Paso 2: Validación de contraseñas
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const btnStep2 = document.getElementById('btnStep2');
+    
+        function validatePasswords() {
+            const pwd = passwordInput.value;
+            const confirmPwd = confirmPasswordInput.value;
+            const errorMessage = document.getElementById('errorMessage');
+    
+            // Si ambos campos están llenos y no coinciden, muestra el mensaje de error
+            if (pwd && confirmPwd && pwd !== confirmPwd) {
+                errorMessage.style.display = 'block';
+                errorMessage.textContent = 'Las contraseñas no coinciden';
+            } else {
+                errorMessage.style.display = 'none';
+            }
+    
+            // Habilita el botón solo si ambos campos están llenos y coinciden
+            btnStep2.disabled = !(pwd && confirmPwd && pwd === confirmPwd);
+        }
+        passwordInput.addEventListener('input', validatePasswords);
+        confirmPasswordInput.addEventListener('input', validatePasswords);
+    
+        btnStep2.addEventListener('click', () => {
+            // Una vez validadas las contraseñas, muestra el mensaje final
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('finalMessage').style.display = 'block';
+        });
+    </script>
+    
+</body>
+
+</html>

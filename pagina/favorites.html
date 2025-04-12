@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favoritos</title>
+  <link rel="stylesheet" href="Css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="/img/logo.jpg" alt="Logo">
+    </div>
+    <input type="search" name="search" class="search-field" placeholder="Enter your product name...">
+    <button class="search-btn">
+      <ion-icon name="search-outline"></ion-icon>
+    </button>
+    <div class="icons">
+      <a href="favorites.html" class="favorites">❤️</a>
+      <a href="cart.html" class="cart">🛒</a>
+    </div>
+  </header>
+
+  <!-- Menú horizontal -->
+  <nav class="menu-nav">
+    <ul class="menu">
+      <li><a href="index.html">INICIO</a></li>
+      <li><a href="ingreso.html">INGRESO</a></li>
+      <li><a href="registro.html">REGISTRO</a></li>
+      <li><a href="contactenos.html">CONTACTENOS</a></li>
+    </ul>
+  </nav>
+
+  <!-- Contenedor de Favoritos -->
+  <main class="favorites-page">
+    <h1>Tus Productos Favoritos</h1>
+    <div id="favorites-container" class="product-list">
+      <!-- Aquí se cargarán los productos guardados -->
+    </div>
+  </main>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+      const container = document.getElementById('favorites-container');
+
+      if (favorites.length === 0) {
+        container.innerHTML = '<p>No hay productos favoritos.</p>';
+      } else {
+        favorites.forEach(function(product) {
+          const div = document.createElement('div');
+          div.classList.add('product');
+          div.innerHTML = `
+            <img src="${product.image}" alt="${product.title}">
+            <h2>${product.title}</h2>
+            <p>${product.description}</p>
+            <p class="price">${product.price}</p>
+            <div class="action-buttons">
+              <button class="remove-btn" data-id="${product.id}">Eliminar</button>
+              <!-- Cambiamos el enlace "Comprar" a un botón -->
+              <button class="btn-buy" data-id="${product.id}">Comprar</button>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      }
+
+      // Evento para eliminar productos de favoritos
+      document.querySelectorAll('.remove-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+          const id = this.getAttribute('data-id');
+          let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+          favorites = favorites.filter(function(item) {
+            return item.id !== id;
+          });
+          localStorage.setItem('favorites', JSON.stringify(favorites));
+          location.reload(); // Recargamos la página para actualizar la lista
+        });
+      });
+
+      // Evento para agregar el producto al carrito y redirigir a cart.html
+      document.querySelectorAll('.btn-buy').forEach(function(button) {
+        button.addEventListener('click', function() {
+          const id = this.getAttribute('data-id');
+          // Buscamos el producto en la lista de favoritos
+          const product = favorites.find(p => p.id === id);
+          if (product) {
+            // Obtenemos el carrito actual o inicializamos un arreglo vacío
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            // Verificamos si el producto ya existe en el carrito
+            let cartItem = cart.find(item => item.id === product.id);
+            if (cartItem) {
+              // Si ya existe, aumentamos la cantidad
+              cartItem.quantity = (cartItem.quantity || 1) + 1;
+            } else {
+              // Si no, inicializamos la cantidad en 1
+              product.quantity = 1;
+              cart.push(product);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            // Redirigimos a la página del carrito
+            window.location.href = "cart.html";
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
